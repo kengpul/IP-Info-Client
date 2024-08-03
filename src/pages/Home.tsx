@@ -2,6 +2,10 @@ import { FormEvent, useEffect, useReducer, useState } from "react";
 import useIp from "../hooks/useIp";
 import IpInfo from "../types/IpInfo";
 import ipInfoReducer, { IpInfoMethod } from "../reducers/ipInfoReducer";
+import authReducer, {
+  AuthInitialState,
+  authType,
+} from "../reducers/authReducer";
 
 const Home = () => {
   const [ipInfo, setIpInfo] = useState<IpInfo | null>(null);
@@ -9,6 +13,7 @@ const Home = () => {
   const initialState: IpInfo[] = [];
 
   const [state, dispatch] = useReducer(ipInfoReducer, initialState);
+  const [, authDispatch] = useReducer(authReducer, AuthInitialState);
   const { getOne, getInitialIp, getAllHistory, getOneFromDB, error } = useIp();
 
   const handleSearch = async (e: FormEvent) => {
@@ -100,6 +105,7 @@ const Home = () => {
           </li>
         </ul>
       </div>
+
       <div className="w-full md:w-1/6 mx-5 md:mx-0 h-96 bg-slate-100 p-5 rounded-lg">
         <h3 className="text-2xl font-semibold mb-5">History</h3>
         <div className="overflow-y-scroll h-72">
@@ -116,6 +122,15 @@ const Home = () => {
               ))}
           </ul>
         </div>
+      </div>
+
+      <div className="absolute top-5 right-5">
+        <button
+          className="bg-red-500 py-2 px-5 rounded-md text-slate-800 font-semibold"
+          onClick={() => authDispatch({ type: authType.LOGOUT })}
+        >
+          Log out
+        </button>
       </div>
     </div>
   );

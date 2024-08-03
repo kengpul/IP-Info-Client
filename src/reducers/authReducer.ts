@@ -1,3 +1,5 @@
+import { Reducer } from "react";
+
 export enum authType {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
@@ -26,14 +28,15 @@ const getInitialToken = () => {
   return null;
 };
 
-export const initialState: AuthState = {
+export const AuthInitialState: AuthState = {
   isAuthenticated: getInitialLoggedIn(),
   token: getInitialToken(),
 };
 
-const authReducer = (state: AuthState, action: authAction) => {
+const authReducer: Reducer<AuthState, authAction> = (state, action) => {
   switch (action.type) {
     case authType.LOGIN: {
+      window.location.href = '/'
       localStorage.setItem(
         import.meta.env.VITE_LOCAL_STORAGE_USER_TOKEN_NAME,
         action.payload
@@ -41,10 +44,11 @@ const authReducer = (state: AuthState, action: authAction) => {
       return { ...state, isAuthenticated: true, token: action.payload };
     }
     case authType.LOGOUT: {
+      window.location.href = '/'
       localStorage.removeItem(
         import.meta.env.VITE_LOCAL_STORAGE_USER_TOKEN_NAME
       );
-      return { ...state, isAuthenticated: false };
+      return { ...state, isAuthenticated: false, token: null };
     }
   }
 };

@@ -1,6 +1,6 @@
 import { useReducer, useState } from "react";
 import APIClient from "../api-client";
-import authReducer, { initialState } from "../reducers/authReducer";
+import authReducer, { AuthInitialState } from "../reducers/authReducer";
 import { AxiosError } from "axios";
 
 const apiClientGetOne = new APIClient("/ip/get");
@@ -10,7 +10,7 @@ const apiClientGetAllHistory = new APIClient("/ip/history");
 
 const useIp = () => {
   const [error, setError] = useState<string>("");
-  const [state] = useReducer(authReducer, initialState);
+  const [state] = useReducer(authReducer, AuthInitialState);
   const token = `Bearers ${state.token}`;
 
   const getInitialIp = async () => apiClientGetInitial.getInitialIp(token);
