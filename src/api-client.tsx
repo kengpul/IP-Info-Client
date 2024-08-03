@@ -7,22 +7,29 @@ const axiosInstance = axios.create({
 });
 
 class APIClient {
-  enpoint: string;
+  endpoint: string;
 
   constructor(endpoint: string) {
-    this.enpoint = endpoint;
+    this.endpoint = endpoint;
   }
 
   login = (email: string, password: string) => {
     return axiosInstance
-      .post(this.enpoint, { email, password })
+      .post(this.endpoint, { email, password })
+      .then((res) => res)
+      .catch((err) => err);
+  };
+
+  getInitialIp = (token: string) => {
+    return axiosInstance
+      .get(this.endpoint, { headers: { Authorization: token } })
       .then((res) => res)
       .catch((err) => err);
   };
 
   getOne = (ip: string, token: string) => {
     return axiosInstance
-      .get(this.enpoint, {
+      .get(this.endpoint, {
         params: { ip },
         headers: { Authorization: token },
       })

@@ -6,17 +6,24 @@ const Home = () => {
   const [ipInfo, setIpInfo] = useState<IpInfo | null>(null);
   const [ip, setIp] = useState<string>("");
 
-  useEffect(() => {
-    // call get initial IP
-  }, [])
-
-  const { getOne, error } = useIp();
+  const { getOne, getInitialIp, error } = useIp();
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
     const status = await getOne(ip);
     if (!error) setIpInfo(status);
   };
+
+  useEffect(() => {
+    const getMyIp = async () => {
+      const status = await getInitialIp();
+      if (!error) {
+        setIp(status.data.result.ip);
+        setIpInfo(status.data.result);
+      }
+    };
+    getMyIp();
+  }, []);
 
   return (
     <div className="w-full md:w-1/3 mx-5 md:mx-0 bg-slate-100 p-5 rounded-lg">
