@@ -5,6 +5,7 @@ export enum authType {
 
 export interface AuthState {
   isAuthenticated: boolean;
+  token: string | null;
 }
 
 type authAction =
@@ -17,8 +18,17 @@ const getInitialLoggedIn = () => {
   return false;
 };
 
+const getInitialToken = () => {
+  if (localStorage.getItem(import.meta.env.VITE_LOCAL_STORAGE_USER_TOKEN_NAME))
+    return localStorage.getItem(
+      import.meta.env.VITE_LOCAL_STORAGE_USER_TOKEN_NAME
+    );
+  return null;
+};
+
 export const initialState: AuthState = {
   isAuthenticated: getInitialLoggedIn(),
+  token: getInitialToken(),
 };
 
 const authReducer = (state: AuthState, action: authAction) => {
@@ -28,7 +38,7 @@ const authReducer = (state: AuthState, action: authAction) => {
         import.meta.env.VITE_LOCAL_STORAGE_USER_TOKEN_NAME,
         action.payload
       );
-      return { ...state, isAuthenticated: true };
+      return { ...state, isAuthenticated: true, token: action.payload };
     }
     case authType.LOGOUT: {
       localStorage.removeItem(

@@ -1,12 +1,13 @@
-import Login from "./pages/Login"
+import Home from "./pages/Home";
 
 function App() {
-
   return (
     <>
-      <Login />
+      <div className="w-screen h-screen flex justify-center items-center">
+        <Home />
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

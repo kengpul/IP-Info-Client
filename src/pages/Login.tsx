@@ -13,7 +13,6 @@ const Login = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
       <div className="w-full md:w-1/3 mx-5 md:mx-0 bg-slate-100 p-5 rounded-lg">
         <h2 className="text-4xl font-semibold">Log in to your account</h2>
         {error && <p className="bg-red-300 p-3 mt-5 rounded-md">{error}</p>}
@@ -54,7 +53,6 @@ const Login = () => {
           </div>
         </form>
       </div>
-    </div>
   );
 };
 
