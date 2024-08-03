@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useReducer } from "react";
-import authReducer, { initialState } from "./reducers/authReducer";
+import IpInfo from "./types/IpInfo";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -22,15 +21,24 @@ class APIClient {
 
   getInitialIp = (token: string) => {
     return axiosInstance
-      .get(this.endpoint, { headers: { Authorization: token } })
+      .get<IpInfo>(this.endpoint, { headers: { Authorization: token } })
       .then((res) => res)
       .catch((err) => err);
   };
 
   getOne = (ip: string, token: string) => {
     return axiosInstance
-      .get(this.endpoint, {
+      .get<IpInfo>(this.endpoint, {
         params: { ip },
+        headers: { Authorization: token },
+      })
+      .then((res) => res)
+      .catch((err) => err);
+  };
+
+  getAllHistory = (token: string) => {
+    return axiosInstance
+      .get<IpInfo[]>(this.endpoint, {
         headers: { Authorization: token },
       })
       .then((res) => res)

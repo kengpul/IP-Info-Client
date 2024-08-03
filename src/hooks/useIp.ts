@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 
 const apiClientGetOn = new APIClient("/ip/get");
 const apiClientGetInitial = new APIClient("/ip/initial");
+const apiClientGetAllHistory = new APIClient("/ip/history");
 
 const useIp = () => {
   const [error, setError] = useState<string>("");
@@ -25,7 +26,10 @@ const useIp = () => {
     return status.data.result;
   };
 
-  return { getOne, getInitialIp, error };
+  const getAllHistory = async () =>
+    await apiClientGetAllHistory.getAllHistory(token);
+
+  return { getOne, getInitialIp, getAllHistory, error };
 };
 
 export default useIp;
