@@ -9,11 +9,15 @@ const Home = () => {
   const initialState: IpInfo[] = [];
 
   const [state, dispatch] = useReducer(ipInfoReducer, initialState);
-  const { getOne, getInitialIp, getAllHistory, error } = useIp();
+  const { getOne, getInitialIp, getAllHistory, getOneFromDB, error } = useIp();
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
     const status = await getOne(ip);
+    if (state.some((item) => item.ip === status.ip)) {
+      return handleGetIpDetails(ip);
+    }
+
     if (!error) {
       setIpInfo(status);
       dispatch({
@@ -21,6 +25,11 @@ const Home = () => {
         payload: status,
       });
     }
+  };
+
+  const handleGetIpDetails = async (ip: string) => {
+    const status = await getOneFromDB(ip);
+    setIpInfo(status.data.result);
   };
 
   useEffect(() => {
@@ -93,10 +102,18 @@ const Home = () => {
       </div>
       <div className="w-full md:w-1/6 mx-5 md:mx-0 h-96 bg-slate-100 p-5 rounded-lg">
         <h3 className="text-2xl font-semibold mb-5">History</h3>
-        <div className="overflow-scroll h-72">
+        <div className="overflow-y-scroll h-72">
           <ul>
             {state.length &&
-              state.map((history) => <li key={history.ip}>{history.ip}</li>)}
+              state.map((history) => (
+                <li
+                  className="text-blue-500 cursor-pointer hover:text-blue-700"
+                  key={history.ip}
+                  onClick={() => handleGetIpDetails(history.ip)}
+                >
+                  {history.ip}
+                </li>
+              ))}
           </ul>
         </div>
       </div>

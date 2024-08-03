@@ -36,6 +36,15 @@ class APIClient {
       .catch((err) => err);
   };
 
+  getOneFromDB = (ip: string, token: string) => {
+    return axiosInstance
+      .get<IpInfo>(this.endpoint + "/" + ip, {
+        headers: { Authorization: token },
+      })
+      .then((res) => res)
+      .catch((err) => err);
+  };
+
   getAllHistory = (token: string) => {
     return axiosInstance
       .get<IpInfo[]>(this.endpoint, {
