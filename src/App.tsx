@@ -7,7 +7,7 @@ function App() {
   const [state] = useReducer(authReducer, AuthInitialState);
   return (
     <>
-      <div className="w-screen h-screen flex justify-center items-center">
+      <div className="w-screen h-screen flex justify-center items-center bg-slate-900">
         {state.isAuthenticated ? <Home /> : <Login />}
       </div>
     </>

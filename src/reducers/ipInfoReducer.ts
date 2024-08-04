@@ -6,7 +6,7 @@ export enum IpInfoMethod {
   ADD,
 }
 
-type IpInfoAction =
+export type IpInfoAction =
   | { type: IpInfoMethod.GET; payload: IpInfo[] }
   | { type: IpInfoMethod.ADD; payload: IpInfo };
 
